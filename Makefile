@@ -1,3 +1,3 @@
-CFLAGS=-g -O
+CFLAGS=-g -O -Wall
 
 all: euler

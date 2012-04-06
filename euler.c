@@ -151,6 +151,46 @@ void eu006(char *ans) {
   sprintf(ans, "%d", square_of_sums - sum_of_squares);
 }
 
+int
+is_prime(int n) {
+  int i;
+  if (n % 2 == 0) return 0;
+  for (i = 3; i * i <= n; i += 2) {
+    if (n % i == 0) return 0;
+  }
+  return 1;
+}
+
+/*
+ * Find the 10,001st prime.
+ *
+ * We start at n=2, then check 6k+-1 for primality
+ * until we reach n=10001.
+ */
+void
+eu007(char *ans) {
+  int n, p;
+
+  n = 2; /* 2 and 3 are primes and we start at 5 */
+  p = 5;
+  for (;;) {
+    if (is_prime(p)) {
+      n += 1;
+      if (n == 10001) break;
+    }
+    // p is either 6k-1 or 6k+1;
+    // if it's 6k-1, we add 2 to get a 6k+1
+    // if it's 6k+1, we add 4 to get a 6k-1
+    if ((p + 1) % 6 == 0) {
+      p += 2;
+    } else {
+      p += 4;
+    }
+  }
+
+  sprintf(ans, "%d", p);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -165,6 +205,7 @@ struct puzzle puzzles[] = {
   { "004", &eu004, "906609" },
   { "005", &eu005, "232792560" },
   { "006", &eu006, "25164150" },
+  { "007", &eu007, "104743" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
