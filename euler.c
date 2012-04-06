@@ -200,7 +200,7 @@ eu008(char *ans) {
   int max = 0, i;
 
   for (i = 0; buf[i+4]; i++) {
-    int prod = todigit(buf[i]) + todigit(buf[i+1]) + todigit(buf[i+2]) + todigit(buf[i+3]) + todigit(buf[i+4]);
+    int prod = todigit(buf[i]) * todigit(buf[i+1]) * todigit(buf[i+2]) * todigit(buf[i+3]) * todigit(buf[i+4]);
     if (prod > max) {
       max = prod;
     }
@@ -224,6 +224,7 @@ struct puzzle puzzles[] = {
   { "005", &eu005, "232792560" },
   { "006", &eu006, "25164150" },
   { "007", &eu007, "104743" },
+  { "008", &eu008, "40824" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
