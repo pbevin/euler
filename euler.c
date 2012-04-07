@@ -209,6 +209,20 @@ eu008(char *ans) {
   sprintf(ans, "%d", max);
 }
 
+void
+eu009(char *ans) {
+  for (int a = 1; a < 999; a++) {
+    for (int b = a; b < 999; b++) {
+      int c = 1000 - a - b;
+      if (a * a + b * b == c * c) {
+	sprintf(ans, "%d", a * b * c);
+	return;
+      }
+    }
+  }
+  sprintf(ans, "not found");
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -225,6 +239,7 @@ struct puzzle puzzles[] = {
   { "006", &eu006, "25164150" },
   { "007", &eu007, "104743" },
   { "008", &eu008, "40824" },
+  { "009", &eu009, "31875000" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
