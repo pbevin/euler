@@ -223,6 +223,21 @@ eu009(char *ans) {
   sprintf(ans, "not found");
 }
 
+void eu010(char *ans) {
+  const int N = 2000000;
+  uint64_t sum = 0;
+  char sieve[N];
+
+  gensieve(sieve, N);
+
+  for (int i = 2; i < N; i++) {
+    if (!sieve[i]) sum += i;
+  }
+
+  sprintf(ans, "%" PRIu64, sum);
+}
+  
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -240,6 +255,7 @@ struct puzzle puzzles[] = {
   { "007", &eu007, "104743" },
   { "008", &eu008, "40824" },
   { "009", &eu009, "31875000" },
+  { "010", &eu010, "142913828922" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
