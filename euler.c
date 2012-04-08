@@ -293,6 +293,36 @@ void eu011(char *ans) {
   sprintf(ans, "%d", p);
 }
 
+/* Count the divisors of n.  We use the trick that
+ * divisors are symmetric: if d is a divisor, then
+ * so is n/d, so we only have to count up to the
+ * square root of n.
+ */
+int divisors(int n) {
+  int count = 0, i;
+  for (i = 1; i * i < n; i++) {
+    if (n % i == 0) count += 2;
+  }
+  /* If n is a square, then sqrt(n) is a divisor
+   * that has no pair. */
+  if (i * i == n) count += 1;
+  return count;
+}
+
+void eu012(char *ans) {
+  int n = 0;
+  
+  for (int i = 1; ; i++) {
+    int ndiv;
+    n += i;
+    ndiv = divisors(n);
+    if (ndiv > 500) {
+      sprintf(ans, "%d", n);
+      return;
+    }
+  }
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -312,6 +342,7 @@ struct puzzle puzzles[] = {
   { "009", &eu009, "31875000" },
   { "010", &eu010, "142913828922" },
   { "011", &eu011, "70600674" },
+  { "012", &eu012, "76576500" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
