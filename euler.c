@@ -323,6 +323,54 @@ void eu012(char *ans) {
   }
 }
 
+void
+readnum(char *num, FILE *fp) {
+  char buf[100];
+  int k = 0;
+  char *p = fgets(buf, 100, fp);
+  if (p != 0) {
+    for (int j = strlen(p) - 1; j >= 0; j--) {
+      num[k] = p[j] - '0';
+      k++;
+    }
+  }
+  while (k < 100) num[k++] = 0;
+}
+
+void add(char *dst, char *src) {
+  int c = 0;
+  for (int i = 0; i < 100; i++) {
+    int d = dst[i] + src[i] + c;
+    dst[i] = d % 10;
+    c = d / 10;
+  }
+}
+
+void eu013(char *ans) {
+  FILE *fp = fopen("eu013.txt", "r");
+  char sum[100];
+  char num[100];
+
+  memset(sum, 0, 100);
+
+  for (int i = 0; i < 100; i++) {
+    readnum(num, fp);
+    add(sum, num);
+  }
+
+  fclose(fp);
+
+  for (int i = 99; i >= 0; i--) {
+    if (sum[i] > 0) {
+      for (int j = 0; j < 10; j++) {
+	ans[j] = sum[i-j] + '0';
+      }
+      ans[10] = 0;
+      return;
+    }
+  }
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -343,6 +391,7 @@ struct puzzle puzzles[] = {
   { "010", &eu010, "142913828922" },
   { "011", &eu011, "70600674" },
   { "012", &eu012, "76576500" },
+  { "013", &eu013, "5537376230" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
