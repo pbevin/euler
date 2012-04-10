@@ -371,6 +371,46 @@ void eu013(char *ans) {
   }
 }
 
+int
+collatz(long long n, int *a, int max) {
+  if (n == 1) {
+    return 1;
+  } else if (n < max && a[n] > 0) {
+    return a[n];
+  } else {
+    long long next;
+    int c;
+    if (n % 2 == 0) {
+      next = n / 2;
+    } else {
+      next = 3 * n + 1;
+    }
+    c = collatz(next, a, max);
+    if (n < max)
+      a[n] = c + 1;
+    return c + 1;
+  }
+}
+
+
+void eu014(char *ans) {
+  const int N = 1000000;
+  int a[N];
+  int max = 0, nmax;
+
+  memset(a, 0, sizeof(a));
+
+  for (int i = 2; i < N; i++) {
+    int count = collatz(i, a, N);
+    if (count > max) {
+      max = count;
+      nmax = i;
+    }
+  }
+
+  sprintf(ans, "%d", nmax);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -392,6 +432,7 @@ struct puzzle puzzles[] = {
   { "011", &eu011, "70600674" },
   { "012", &eu012, "76576500" },
   { "013", &eu013, "5537376230" },
+  { "014", &eu014, "837799" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
