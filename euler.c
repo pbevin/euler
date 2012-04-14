@@ -337,9 +337,9 @@ readnum(char *num, FILE *fp) {
   while (k < 100) num[k++] = 0;
 }
 
-void add(char *dst, char *src) {
+void add(char *dst, char *src, int n) {
   int c = 0;
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < n; i++) {
     int d = dst[i] + src[i] + c;
     dst[i] = d % 10;
     c = d / 10;
@@ -355,7 +355,7 @@ void eu013(char *ans) {
 
   for (int i = 0; i < 100; i++) {
     readnum(num, fp);
-    add(sum, num);
+    add(sum, num, 100);
   }
 
   fclose(fp);
@@ -432,7 +432,26 @@ void eu015(char *ans) {
   }
   sprintf(ans, "%lld", a[41][20]);
 }
+
+void eu016(char *ans) {
+  const int N = 1000;
+  char num[N];
+  int i, t;
   
+  memset(num, 0, N);
+  num[0] = 1;
+
+  for (i = 0; i < N; i++) {
+    add(num, num, N);
+  }
+
+  for (t = 0, i = 0; i < N; i++) {
+    t += num[i];
+  }
+
+  sprintf(ans, "%d", t);
+}
+
 
   
 
@@ -459,6 +478,7 @@ struct puzzle puzzles[] = {
   { "013", &eu013, "5537376230" },
   { "014", &eu014, "837799" },
   { "015", &eu015, "137846528820" },
+  { "016", &eu016, "1366" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
