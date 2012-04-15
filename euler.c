@@ -737,6 +737,28 @@ void eu024(char *ans) {
   genperm(ans, "0123456789", 10, perm-1, fact);
 }
 
+void eu025(char *ans) {
+  const int N = 1000;
+  int n = 2;
+  char a1[N], a2[N], a3[N];
+
+  memset(a1, 0, N);
+  memset(a2, 0, N);
+  a1[0] = 1;
+  a2[0] = 1;
+
+  for (;;) {
+    n++;
+    memcpy(a3, a1, N);
+    add(a3, a2, N);
+    if (a3[N-1]) {
+      sprintf(ans, "%d", n);
+      return;
+    }
+    memcpy(a1, a2, N);
+    memcpy(a2, a3, N);
+  }
+}
 
 typedef void (solver)(char *ans);
 struct puzzle {
@@ -770,6 +792,7 @@ struct puzzle puzzles[] = {
   { "022", &eu022, "871198282" },
   { "023", &eu023, "4179871" },
   { "024", &eu024, "2783915460" },
+  { "025", &eu025, "4782" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
