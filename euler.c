@@ -346,6 +346,16 @@ void add(char *dst, char *src, int n) {
   }
 }
 
+void mul1(char *dst, int a, int n) {
+  int c = 0;
+  for (int i = 0; i < n; i++) {
+    int d = dst[i] * a + c;
+    dst[i] = d % 10;
+    c = d / 10;
+  }
+}
+
+
 void eu013(char *ans) {
   FILE *fp = fopen("eu013.txt", "r");
   char sum[100];
@@ -570,6 +580,24 @@ void eu019(char *ans) {
   sprintf(ans, "%d", count);
 }
 
+void eu020(char *ans) {
+  const int N = 100;
+  char fact[1000];
+
+  memset(fact, 0, sizeof(fact));
+  fact[0] = 1;
+
+  for (int i = 2; i < N; i++) {
+    mul1(fact, i, 1000);
+  }
+
+  int t = 0;
+  for (int i = 0; i < 1000; i++) {
+    t += fact[i];
+  }
+  sprintf(ans, "%d", t);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -597,6 +625,7 @@ struct puzzle puzzles[] = {
   { "017", &eu017, "21124" },
   { "018", &eu018, "1074" },
   { "019", &eu019, "171" },
+  { "020", &eu020, "648" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
