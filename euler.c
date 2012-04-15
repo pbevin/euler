@@ -309,6 +309,18 @@ int divisors(int n) {
   return count;
 }
 
+/* Add up the divisors of n, not counting n itself.
+ * Same trick as divisors().
+ */
+int sumdivisors(int n) {
+  int sum = 1, i;
+  for (i = 2; i * i < n; i++) {
+    if (n % i == 0) sum += i + n/i;
+  }
+  if (i * i == n) sum += i;
+  return sum;
+}
+
 void eu012(char *ans) {
   int n = 0;
   
@@ -580,6 +592,7 @@ void eu019(char *ans) {
   sprintf(ans, "%d", count);
 }
 
+/* Sum of digits of 1000! */
 void eu020(char *ans) {
   const int N = 100;
   char fact[1000];
@@ -596,6 +609,25 @@ void eu020(char *ans) {
     t += fact[i];
   }
   sprintf(ans, "%d", t);
+}
+
+/* Add up all amicable numbers under 10,000 */
+void eu021(char *ans) {
+  const int N = 10000;
+  int ds[N];
+
+  for (int i = 1; i < N; i++) {
+    ds[i] = sumdivisors(i);
+  }
+
+  int sum = 0;
+  for (int i = 1; i < N; i++) {
+    if (ds[i] < N && i != ds[i] && ds[ds[i]] == i) {
+      sum += i;
+    }
+  }
+
+  sprintf(ans, "%d", sum);
 }
 
 typedef void (solver)(char *ans);
@@ -626,6 +658,7 @@ struct puzzle puzzles[] = {
   { "018", &eu018, "1074" },
   { "019", &eu019, "171" },
   { "020", &eu020, "648" },
+  { "021", &eu021, "31626" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
