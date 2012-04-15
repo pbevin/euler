@@ -670,6 +670,40 @@ void eu022(char *ans) {
   sprintf(ans, "%d", total);
 }
 
+void eu023(char *ans) {
+  int N = 28123;
+  int abundant[N];
+  char issum[N];
+  int nabun = 0;
+
+  memset(abundant, 0, sizeof(abundant));
+  memset(issum, 0, sizeof(issum));
+
+  for (int i = 2; i < N; i++) {
+    if (sumdivisors(i) > i) {
+      abundant[nabun++] = i;
+    }
+  }
+
+  for (int i = 0; i < nabun; i++) {
+    for (int j = 0; j <= i; j++) {
+      int sum = abundant[i] + abundant[j];
+      if (sum < N) {
+	issum[sum] = 1;
+      }
+    }
+  }
+
+  int total = 0;
+  for (int i = 1; i < N; i++) {
+    if (!issum[i]) {
+      total += i;
+    }
+  }
+  
+  sprintf(ans, "%d", total);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -699,7 +733,8 @@ struct puzzle puzzles[] = {
   { "019", &eu019, "171" },
   { "020", &eu020, "648" },
   { "021", &eu021, "31626" },
-  { "022", &eu022, "871198282" }
+  { "022", &eu022, "871198282" },
+  { "023", &eu023, "4179871" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
