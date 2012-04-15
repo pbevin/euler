@@ -630,6 +630,46 @@ void eu021(char *ans) {
   sprintf(ans, "%d", sum);
 }
 
+int namesort(const void *a, const void *b) {
+  return strcmp(* (char * const *) a, * (char * const *) b);
+}
+
+void eu022(char *ans) {
+  FILE *fp = fopen("names.txt", "r");
+  if (fp == 0) {
+    perror("names.txt");
+    return;
+  }
+  char buf[50000];
+  char *p = fgets(buf, sizeof(buf), fp);
+  fclose(fp);
+
+  char *names[8000];
+  int i = 0;
+  for (;;) {
+    while (*p == '"') p++;
+    names[i++] = p;
+    while (*p != '"') p++;
+    *p++ = 0;
+    p++; /* skip comma */
+    if (*p != '"') break;
+  }
+  int n = i;
+
+  qsort(names, n, sizeof(names[0]), namesort);
+
+  int total = 0;
+  for (i = 0; i < n; i++) {
+    int val = 0;
+    for (char *p = names[i]; *p; p++) {
+      val += *p - 'A' + 1;
+    }
+    total += (i+1) * val;
+  }
+
+  sprintf(ans, "%d", total);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -659,6 +699,7 @@ struct puzzle puzzles[] = {
   { "019", &eu019, "171" },
   { "020", &eu020, "648" },
   { "021", &eu021, "31626" },
+  { "022", &eu022, "871198282" }
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
