@@ -936,6 +936,33 @@ void eu029(char *ans) {
   sprintf(ans, "%d", nseen);
 }
 
+/*
+ * Find all numbers that can be written as the sum of the
+ * fifth power of their digits.
+ *
+ * We only have to check up to 413343 = 9^5 * 6, since the
+ * digit sum is less than the number for anything larger.
+ */
+void eu030(char *ans) {
+  int fp[10] = { 0, 1, 32, 243, 1024, 3125, 7776, 16807, 32768, 59049 };
+  int t = 0;
+
+  for (int n = 10; n < 413344; n++) {
+    int digit5sum = 0;
+    int v = n;
+    while (v > 0) {
+      int d = v % 10;
+      v = v / 10;
+      digit5sum += fp[d];
+    }
+    if (digit5sum == n) {
+      t += n;
+    }
+  }
+
+  sprintf(ans, "%d", t);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -972,7 +999,8 @@ struct puzzle puzzles[] = {
   { "026", &eu026, "983" },
   { "027", &eu027, "-59231" },
   { "028", &eu028, "669171001" },
-  { "029", &eu029, 0 },
+  { "029", &eu029, "9183" },
+  { "030", &eu030, "443839" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
