@@ -1073,6 +1073,43 @@ void eu032(char *ans) {
   sprintf(ans, "%d", t);
 }
 
+int gcd(int a, int b) {
+  int t;
+  if (a > b) {
+    t = a;
+    a = b;
+    b = t;
+  }
+
+  while (b > 0) {
+    t = b;
+    b = a % b;
+    a = t;
+  }
+  return a;
+}
+
+void eu033(char *ans) {
+  int a, b;
+  int num = 1, den = 1;
+ 
+  for (a = 10; a < 99; a++) {
+    for (b = a+1; b < 99; b++) {
+      if (a % 10 == b / 10) {
+	float d = (float)a / (float)b;
+	float e = (float)(a/10) / (float)(b%10);
+	if (d == e) {
+	  num *= a/10;
+	  den *= b%10;
+	}
+      }
+    }
+  }
+  
+  int g = gcd(num, den);
+  sprintf(ans, "%d", den / g);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -1112,7 +1149,8 @@ struct puzzle puzzles[] = {
   { "029", &eu029, "9183" },
   { "030", &eu030, "443839" },
   { "031", &eu031, "73682" },
-  { "032", &eu032, 0 },
+  { "032", &eu032, "45228" },
+  { "033", &eu033, "100" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
