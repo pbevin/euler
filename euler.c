@@ -963,6 +963,116 @@ void eu030(char *ans) {
   sprintf(ans, "%d", t);
 }
 
+/*
+ * How many ways can you make 200 using coins
+ * 1,2,5,10,20,50,100,200?
+ *
+ * Let a(i,x) be the number of ways of making up x using
+ * only the first i denominations.
+ *
+ * Then a(1,x) = 1, and
+ *   a(i+1,x) = a(i,x) + a(i+1,x-v(i)).
+ * (e.g., to make up 13p using 1, 2 and 5, you can either
+ * not use a 5 at all a(i,x) ways, or make 8p and add a 5.
+ */
+void eu031(char *ans) {
+  const int N = 200;
+  int coins[8] = { 1,2,5,10,20,50,100,200 };
+  int a[N+1];
+
+  for (int k = 0; k <= N; k++) a[k] = 1;
+
+  for (int i = 1; i < 8; i++) {
+    int v = coins[i];
+    for (int k = v; k <= N; k++) {
+      a[k] += a[k-v];
+    }
+  }
+
+  sprintf(ans, "%d", a[N]);
+}
+
+
+void swap(char *a, char *b) {
+  int t = *a;
+  *a = *b;
+  *b = t;
+}
+
+char *
+nextperm(char *s) {
+  int i, j, len = strlen(s);
+
+  for (i = len-2; i >= 0; i--) {
+    if (s[i] < s[i+1]) break;
+  }
+  if (i == -1) return 0;
+
+  for (j = len-1; j > i; j--) {
+    if (s[j] > s[i]) break;
+  }
+  swap(&s[i], &s[j]);
+
+  i++; j = len - 1;
+  while (i < j) swap(&s[i++], &s[j--]);
+
+  return s;
+}
+
+int
+subint(char *s, int i, int j) {
+  int t = 0;
+  char *p = s + i;
+  while (p < s + j) {
+    t *= 10;
+    t += *p++ - '0';
+  }
+  return t;
+}
+
+/*
+ * Find all products that are a permutation of 1..9
+ * e.g., 39 * 186 = 7254.
+ */
+void eu032(char *ans) {
+  char buf[12], *s = buf;
+  strcpy(s, "123456789");
+  int len = strlen(s);
+  int seen[1000];
+  int nseen = 0;
+  int t = 0;
+
+  while (s) {
+    for (int i = 1; i < len-1; i++) {
+      for (int j = i+1; j < len; j++) {
+	int a = subint(s, 0, i);
+	int b = subint(s, i, j);
+	int c = subint(s, j, len);
+
+	if (a * b == c) {
+	  int seenit = 0;
+	  for (int k = 0; k < nseen; k++) {
+	    if (c == seen[k]) {
+	      seenit++;
+	      break;
+	    }
+	  }
+	  if (!seenit) {
+	    seen[nseen++] = c;
+	  }
+	}
+      }
+    }
+    s = nextperm(s);
+  }
+
+  for (int i = 0; i < nseen; i++) {
+    t += seen[i];
+  }
+
+  sprintf(ans, "%d", t);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -1001,6 +1111,8 @@ struct puzzle puzzles[] = {
   { "028", &eu028, "669171001" },
   { "029", &eu029, "9183" },
   { "030", &eu030, "443839" },
+  { "031", &eu031, "73682" },
+  { "032", &eu032, 0 },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
