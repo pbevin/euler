@@ -84,7 +84,7 @@ is_palindrome(int n) {
   int i;
   int len;
   len = sprintf(buf, "%d", n);
-  
+
   for (i = 0; i < len/2; i++) {
     if (buf[i] != buf[len-i-1]) return 0;
   }
@@ -286,7 +286,7 @@ void eu011(char *ans) {
   int p2 = prod4(a, 1, 0); // horizontal
   int p3 = prod4(a, 1, 1); // vertical down-right
   int p4 = prod4(a, -1, 1); // vertical up-right
-  
+
   int p = p1;
   if (p2 > p) p = p2;
   if (p3 > p) p = p3;
@@ -325,7 +325,7 @@ int sumdivisors(int n) {
 
 void eu012(char *ans) {
   int n = 0;
-  
+
   for (int i = 1; ; i++) {
     int ndiv;
     n += i;
@@ -461,7 +461,7 @@ void eu016(char *ans) {
   const int N = 1000;
   char num[N];
   int i, t;
-  
+
   memset(num, 0, N);
   num[0] = 1;
 
@@ -478,7 +478,7 @@ void eu016(char *ans) {
 
 /*
  * Count the letters in 1..1000.
- * 
+ *
  * 1..9 is "onetwothreefourfivesixseveneightnine" - 36 chars.
  * 10..19 is "teneleventwelvethirteenfourteenfifteensixteenseventeeneighteennineteen"
  *        - 70 chars.
@@ -557,7 +557,7 @@ void eu018(char *ans) {
  * Find Sundays on the first of the month from
  * Jan 1, 1901 to
  * Dec 31, 2000
- * 
+ *
  * We use Sun => 0, Mon => 1, ..., Sat => 7.
  */
 int countsun(int *days_in_month, int day, int *newday) {
@@ -709,7 +709,7 @@ void eu023(char *ans) {
       total += i;
     }
   }
-  
+
   sprintf(ans, "%d", total);
 }
 
@@ -923,7 +923,7 @@ void eu029(char *ans) {
       }
       factors[i] = k;
     }
-	
+
     for (int b = 2; b <= 100; b++) {
       for (int i = 0; i < 25; i++) {
 	seen[nseen][i] = factors[i] * b;
@@ -1120,7 +1120,7 @@ int gcd(int a, int b) {
 void eu033(char *ans) {
   int a, b;
   int num = 1, den = 1;
- 
+
   for (a = 10; a < 99; a++) {
     for (b = a+1; b < 99; b++) {
       if (a % 10 == b / 10) {
@@ -1133,7 +1133,7 @@ void eu033(char *ans) {
       }
     }
   }
-  
+
   int g = gcd(num, den);
   sprintf(ans, "%d", den / g);
 }
@@ -1207,7 +1207,7 @@ int chkcirc(int lo, int hi, int len, char *sieve) {
   }
   return count;
 }
-    
+
 void eu035(char *ans) {
   int sum = 13;
   char *sieve = malloc(1000000);
@@ -1512,6 +1512,30 @@ void eu042(char *ans) {
   sprintf(ans, "%d", count);
 }
 
+int num3(char *num, int a) {
+  return (num[a] - '0') * 100 + (num[a+1] - '0') * 10 + (num[a+2] - '0');
+}
+void eu043(char *ans) {
+  char num[20];
+  long long int sum = 0;
+
+  strcpy(num, "0123456789");
+
+  while (nextperm(num)) {
+    if (num3(num, 1) % 2 == 0 &&
+        num3(num, 2) % 3 == 0 &&
+        num3(num, 3) % 5 == 0 &&
+        num3(num, 4) % 7 == 0 &&
+        num3(num, 5) % 11 == 0 &&
+        num3(num, 6) % 13 == 0 &&
+        num3(num, 7) % 17 == 0) {
+      sum += atoll(num);
+    }
+  }
+
+  sprintf(ans, "%lld", sum);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -1562,6 +1586,7 @@ struct puzzle puzzles[] = {
   { "040", &eu040, "210" },
   { "041", &eu041, "7652413" },
   { "042", &eu042, "162" },
+  { "043", &eu043, "16695334890" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
