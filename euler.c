@@ -632,37 +632,43 @@ void eu021(char *ans) {
   sprintf(ans, "%d", sum);
 }
 
-int namesort(const void *a, const void *b) {
-  return strcmp(* (char * const *) a, * (char * const *) b);
-}
 
-void eu022(char *ans) {
-  FILE *fp = fopen("names.txt", "r");
+int readwords(const char *filename, char **words, int maxwords) {
+  FILE *fp = fopen(filename, "r");
   if (fp == 0) {
-    perror("names.txt");
-    return;
+    perror(filename);
+    abort();
   }
-  char buf[50000];
+  static char buf[50000];
   char *p = fgets(buf, sizeof(buf), fp);
   fclose(fp);
 
-  char *names[8000];
   int i = 0;
   for (;;) {
     while (*p == '"') p++;
-    names[i++] = p;
+    words[i++] = p;
     while (*p != '"') p++;
     *p++ = 0;
     if (*p == 0) break;
     p++; /* skip comma */
     if (*p != '"') break;
   }
-  int n = i;
+  return i;
+}
 
-  qsort(names, n, sizeof(names[0]), namesort);
+int namesort(const void *a, const void *b) {
+  return strcmp(* (char * const *) a, * (char * const *) b);
+}
+
+void eu022(char *ans) {
+  const int maxwords = 8000;
+  char *names[maxwords];
+  int n = readwords("names.txt", names, maxwords);
+
+  qsort(names, n, sizeof(char *), namesort);
 
   int total = 0;
-  for (i = 0; i < n; i++) {
+  for (int i = 0; i < n; i++) {
     int val = 0;
     for (char *p = names[i]; *p; p++) {
       val += *p - 'A' + 1;
@@ -1012,6 +1018,26 @@ nextperm(char *s) {
 
   for (j = len-1; j > i; j--) {
     if (s[j] > s[i]) break;
+  }
+  swap(&s[i], &s[j]);
+
+  i++; j = len - 1;
+  while (i < j) swap(&s[i++], &s[j--]);
+
+  return s;
+}
+
+char *
+prevperm(char *s) {
+  int i, j, len = strlen(s);
+
+  for (i = len-2; i >= 0; i--) {
+    if (s[i] > s[i+1]) break;
+  }
+  if (i == -1) return 0;
+
+  for (j = len-1; j > i; j--) {
+    if (s[j] < s[i]) break;
   }
   swap(&s[i], &s[j]);
 
@@ -1433,6 +1459,59 @@ void eu040(char *ans) {
   sprintf(ans, "%d", product);
 }
 
+/*
+ * Largest pandigital prime.
+ *
+ * No 8- or 9-digit pandigital can be prime, since the digit sum is
+ * 36 or 45, which makes it divisible by 3.  So we'll just generate
+ * the permutations of 1..7 in reverse until we find one.
+ */
+
+void eu041(char *ans) {
+  char *sieve = malloc(7654324);
+  char *p;
+  gensieve(sieve, 7654324);
+
+  strcpy(ans, "7654321");
+
+  while ((p = prevperm(ans)) != 0) {
+    int v = atoi(ans);
+    if (!sieve[v]) return;
+  }
+}
+
+int istriangle(int num) {
+  int i = 1;
+  while (num > 0) {
+    num -= i;
+    i++;
+  }
+  return (num == 0);
+}
+
+/* How many triangle words in words.txt? */
+void eu042(char *ans) {
+  const int maxwords = 2000;
+  char *words[maxwords];
+  int count = 0;
+
+  int n = readwords("words.txt", words, maxwords);
+
+  for (int i = 0; i < n; i++) {
+    int sum = 0;
+    for (int j = 0; words[i][j]; j++) {
+      int ch = words[i][j] - 'A' + 1;
+      sum += ch;
+    }
+
+    if (istriangle(sum)) {
+      count++;
+    }
+  }
+
+  sprintf(ans, "%d", count);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -1481,6 +1560,8 @@ struct puzzle puzzles[] = {
   { "038", &eu038, "932718654" },
   { "039", &eu039, "840" },
   { "040", &eu040, "210" },
+  { "041", &eu041, "7652413" },
+  { "042", &eu042, "162" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
