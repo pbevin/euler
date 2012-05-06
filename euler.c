@@ -53,12 +53,29 @@ gensieve(char *sieve, int n) {
   for (i = 2; i < n; i++) {
     if (sieve[i] == 0) {
       for (j = i + i; j < n; j += i) {
-	sieve[j] = 1;
+        sieve[j] = 1;
       }
     }
   }
 }
 
+/*
+ * Generate primes below n
+ */
+int genprimes(int *primes, int n) {
+  char *sieve = malloc(n);
+  gensieve(sieve, n);
+
+  primes[0] = 2;
+  int nprimes = 1;
+
+  for (int i = 3; i < n; i += 2) {
+    if (sieve[i] == 0) primes[nprimes++] = i;
+  }
+
+  free(sieve);
+  return nprimes;
+}
 
 /* Find the largest prime factor of 600851475143.
  * We generate primes up to sqrt(num) ~= 775146
@@ -104,7 +121,7 @@ eu004(char *ans) {
     for (j = i; j < 1000; j++) {
       int product = i * j;
       if (product > largest && is_palindrome(product)) {
-	largest = product;
+        largest = product;
       }
     }
   }
@@ -136,7 +153,7 @@ eu005(char *ans) {
     int factor = i;
     for (j = 2; j < i; j++) {
       if (factor % factors[j] == 0)
-	factor /= factors[j];
+        factor /= factors[j];
     }
     product *= factor;
     factors[i] = factor;
@@ -218,8 +235,8 @@ eu009(char *ans) {
     for (int b = a; b < 999; b++) {
       int c = 1000 - a - b;
       if (a * a + b * b == c * c) {
-	sprintf(ans, "%d", a * b * c);
-	return;
+        sprintf(ans, "%d", a * b * c);
+        return;
       }
     }
   }
@@ -388,7 +405,7 @@ void eu013(char *ans) {
   for (int i = 99; i >= 0; i--) {
     if (sum[i] > 0) {
       for (int j = 0; j < 10; j++) {
-	ans[j] = sum[i-j] + '0';
+        ans[j] = sum[i-j] + '0';
       }
       ans[10] = 0;
       return;
@@ -699,7 +716,7 @@ void eu023(char *ans) {
     for (int j = 0; j <= i; j++) {
       int sum = abundant[i] + abundant[j];
       if (sum < N) {
-	issum[sum] = 1;
+        issum[sum] = 1;
       }
     }
   }
@@ -796,8 +813,8 @@ void eu026(char *ans) {
     if (i % 2 != 0 && i % 5 != 0) {
       int len = mulord(10, i);
       if (len > maxlen) {
-	d = i;
-	maxlen = len;
+        d = i;
+        maxlen = len;
       }
     }
   }
@@ -829,11 +846,11 @@ void eu027(char *ans) {
     for (int a = -999; a < 1000; a++) {
       int n = 0;
       while (n < b) {
-	int f_n = n*n + a*n + b;
-	if (f_n < 2 || f_n >= MAXPRIME || sieve[f_n]) {
-	  break;
-	}
-	n++;
+        int f_n = n*n + a*n + b;
+        if (f_n < 2 || f_n >= MAXPRIME || sieve[f_n]) {
+          break;
+        }
+        n++;
       }
 
       /*
@@ -843,8 +860,8 @@ void eu027(char *ans) {
       n--;
 
       if (n > max) {
-	max = n;
-	max_ab = a * b;
+        max = n;
+        max_ab = a * b;
       }
     }
   }
@@ -919,26 +936,26 @@ void eu029(char *ans) {
       int n = a;
       int p = primes100[i], k = 0; /* n has factor p^k */
       while (n % p == 0) {
-	k++;
-	n /= p;
+        k++;
+        n /= p;
       }
       factors[i] = k;
     }
 
     for (int b = 2; b <= 100; b++) {
       for (int i = 0; i < 25; i++) {
-	seen[nseen][i] = factors[i] * b;
+        seen[nseen][i] = factors[i] * b;
       }
 
       int isduplicate = 0;
       for (int j = 0; j < nseen; j++) {
-	if (memcmp(seen[j], seen[nseen], sizeof(int[25])) == 0) {
-	  isduplicate = 1;
-	  break;
-	}
+        if (memcmp(seen[j], seen[nseen], sizeof(int[25])) == 0) {
+          isduplicate = 1;
+          break;
+        }
       }
       if (!isduplicate) {
-	nseen++;
+        nseen++;
       }
     }
   }
@@ -1074,22 +1091,22 @@ void eu032(char *ans) {
   while (s) {
     for (int i = 1; i < len-1; i++) {
       for (int j = i+1; j < len; j++) {
-	int a = subint(s, 0, i);
-	int b = subint(s, i, j);
-	int c = subint(s, j, len);
+        int a = subint(s, 0, i);
+        int b = subint(s, i, j);
+        int c = subint(s, j, len);
 
-	if (a * b == c) {
-	  int seenit = 0;
-	  for (int k = 0; k < nseen; k++) {
-	    if (c == seen[k]) {
-	      seenit++;
-	      break;
-	    }
-	  }
-	  if (!seenit) {
-	    seen[nseen++] = c;
-	  }
-	}
+        if (a * b == c) {
+          int seenit = 0;
+          for (int k = 0; k < nseen; k++) {
+            if (c == seen[k]) {
+              seenit++;
+              break;
+            }
+          }
+          if (!seenit) {
+            seen[nseen++] = c;
+          }
+        }
       }
     }
     s = nextperm(s);
@@ -1125,12 +1142,12 @@ void eu033(char *ans) {
   for (a = 10; a < 99; a++) {
     for (b = a+1; b < 99; b++) {
       if (a % 10 == b / 10) {
-	float d = (float)a / (float)b;
-	float e = (float)(a/10) / (float)(b%10);
-	if (d == e) {
-	  num *= a/10;
-	  den *= b%10;
-	}
+        float d = (float)a / (float)b;
+        float e = (float)(a/10) / (float)(b%10);
+        if (d == e) {
+          num *= a/10;
+          den *= b%10;
+        }
       }
     }
   }
@@ -1194,8 +1211,8 @@ int chkcirc(int lo, int hi, int len, char *sieve) {
     int n = i;
     for (int j = 0; j < len; j++) {
       if (sieve[n]) {
-	is_circular_prime = 0;
-	break;
+        is_circular_prime = 0;
+        break;
       }
       int d = n % 10;
       n /= 10;
@@ -1253,7 +1270,7 @@ void eu036(char *ans) {
     if (ispalindrome(buf)) {
       base2(i, buf);
       if (ispalindrome(buf)) {
-	t += i;
+        t += i;
       }
     }
   }
@@ -1307,8 +1324,8 @@ void eu037(char *ans) {
     j = val;
     while (j > 0) {
       if (sieve[j]) {
-	istrunc = 0;
-	break;
+        istrunc = 0;
+        break;
       }
       j /= 10;
     }
@@ -1319,8 +1336,8 @@ void eu037(char *ans) {
     for (char *p = buf; *p; p++) {
       int j = atoi(p);
       if (sieve[j]) {
-	istrunc = 0;
-	break;
+        istrunc = 0;
+        break;
       }
     }
 
@@ -1383,10 +1400,10 @@ void eu039(char *ans) {
   for (int c = 1; c < 1000; c++) {
     for (int b = 1; b <= c && b+c <= 1000; b++) {
       for (int a = 1; a <= b && a+b+c <= 1000; a++) {
-	// Sides are a < b < c
-	if (a*a + b*b == c*c) {
-	  count[a+b+c]++;
-	}
+        // Sides are a < b < c
+        if (a*a + b*b == c*c) {
+          count[a+b+c]++;
+        }
       }
     }
   }
@@ -1625,6 +1642,41 @@ void eu046(char *ans) {
   }
 }
 
+/*
+ * Smallest 4 consecutive numbers each to have 4 distinct prime factors.
+ */
+int countdpf(int n, int *primes, int nprimes, int *cache, int ncache) {
+  for (int i = 0; i < nprimes; i++) {
+    int p = primes[i];
+    if (n % p == 0) {
+      int m = n / p;
+      while (m % p == 0) m /= p;
+      return cache[n] = cache[m] + 1;
+    }
+  }
+  abort();
+}
+
+void eu047(char *ans) {
+  const int N = 200000;
+  int *primes = malloc(N * sizeof(int));
+  int nprimes = genprimes(primes, N);
+
+  int *cache = malloc(N * sizeof(int));
+  memset(cache, 0, N *sizeof(int));
+  cache[1] = 0;
+
+  for (int i = 2; i < N; i++) {
+    if (countdpf(i, primes, nprimes, cache, N) >= 4 &&
+        countdpf(i+1, primes, nprimes, cache, N) >= 4 &&
+        countdpf(i+2, primes, nprimes, cache, N) >= 4 &&
+        countdpf(i+3, primes, nprimes, cache, N) >= 4) {
+      sprintf(ans, "%d", i);
+      return;
+    }
+  }
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -1679,6 +1731,7 @@ struct puzzle puzzles[] = {
   { "044", &eu044, "5482660" },
   { "045", &eu045, "1533776805" },
   { "046", &eu046, "5777" },
+  { "047", &eu047, "134043" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
