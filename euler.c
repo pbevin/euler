@@ -1677,6 +1677,24 @@ void eu047(char *ans) {
   }
 }
 
+void eu048(char *ans) {
+  const int N = 1000;
+  const long long int MOD = 10000000000L;
+  long long sum = 0;
+
+  for (int i = 1; i <= N; i++) {
+    long long prod = 1;
+    for (int j = 0; j < i; j++) {
+      prod *= i;
+      prod %= MOD;
+    }
+    sum += prod;
+    sum %= MOD;
+  }
+
+  sprintf(ans, "%lld", sum);
+}
+
 typedef void (solver)(char *ans);
 struct puzzle {
   const char *name;
@@ -1732,6 +1750,7 @@ struct puzzle puzzles[] = {
   { "045", &eu045, "1533776805" },
   { "046", &eu046, "5777" },
   { "047", &eu047, "134043" },
+  { "048", &eu048, "9110846700" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
