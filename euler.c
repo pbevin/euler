@@ -50,9 +50,9 @@ gensieve(char *sieve, int n) {
   sieve[1] = 1;
   memset(sieve+2, 0, n-2);
 
-  for (i = 2; i < n; i++) {
+  for (i = 2; i * i < n; i++) {
     if (sieve[i] == 0) {
-      for (j = i + i; j < n; j += i) {
+      for (j = i * i; j < n; j += i) {
         sieve[j] = 1;
       }
     }
