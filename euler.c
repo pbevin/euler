@@ -247,13 +247,14 @@ eu009(char *ans) {
 void eu010(char *ans) {
   const int N = 2000000;
   uint64_t sum = 0;
-  char sieve[N];
+  char *sieve = malloc(N);
 
   gensieve(sieve, N);
 
   for (int i = 2; i < N; i++) {
     if (!sieve[i]) sum += i;
   }
+  free(sieve);
 
   sprintf(ans, "%" PRIu64, sum);
 }
@@ -438,10 +439,10 @@ collatz(long long n, int *a, int max) {
 
 void eu014(char *ans) {
   const int N = 1000000;
-  int a[N];
+  int *a = malloc(N * sizeof(int));
   int max = 0, nmax;
 
-  memset(a, 0, sizeof(a));
+  memset(a, 0, N * sizeof(int));
 
   for (int i = 2; i < N; i++) {
     int count = collatz(i, a, N);
@@ -450,6 +451,7 @@ void eu014(char *ans) {
       nmax = i;
     }
   }
+  free(a);
 
   sprintf(ans, "%d", nmax);
 }
@@ -544,12 +546,12 @@ void eu018(char *ans) {
 63 66 04 68 89 53 67 30 73 16 69 87 40 31 \
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23";
   int n = 0;
-  int maxima[N];
-  int row[N];
+  int *maxima = malloc(N*sizeof(int));
+  int *row = malloc(N*sizeof(int));
 
   memset(maxima, 0, sizeof(maxima));
   for (int i = 0; i < N; i++) {
-    int newmax[N];
+    int *newmax = malloc(N*sizeof(int));
     memset(newmax, 0, sizeof(newmax));
     memset(row, 0, sizeof(row));
     for (int j = 0; j <= i; j++) {
@@ -560,15 +562,22 @@ void eu018(char *ans) {
     for (int j = 0; j < i; j++) {
       newmax[j + 1] = max(maxima[j], maxima[j+1]) + row[j + 1];
     }
-    newmax[i] = maxima[i-1] + row[i];
-    memcpy(maxima, newmax, sizeof(maxima));
+    if (i > 0) {
+      newmax[i] = maxima[i-1] + row[i];
+    }
+    free(maxima);
+    maxima = newmax;
   }
 
   int best = 0;
   for (int i = 0; i < N; i++) {
     if (maxima[i] > best) best = maxima[i];
   }
-  sprintf(ans, "%d", best);
+  if (best > 0) {
+    sprintf(ans, "%d", best);
+  }
+  free(maxima);
+  free(row);
 }
 
 /*
@@ -837,7 +846,7 @@ void eu026(char *ans) {
  */
 void eu027(char *ans) {
   const int MAXPRIME = 2001000;
-  char sieve[MAXPRIME];
+  char *sieve = malloc(MAXPRIME);
   int max = 0;
   int max_ab;
 
@@ -866,6 +875,7 @@ void eu027(char *ans) {
       }
     }
   }
+  free(sieve);
 
   sprintf(ans, "%d", max_ab);
 }
@@ -1495,8 +1505,10 @@ void eu041(char *ans) {
 
   while ((p = prevperm(ans)) != 0) {
     int v = atoi(ans);
-    if (!sieve[v]) return;
+    if (!sieve[v])
+      break;
   }
+  free(sieve);
 }
 
 int istriangle(int num) {
@@ -1673,9 +1685,11 @@ void eu047(char *ans) {
         countdpf(i+2, primes, nprimes, cache, N) >= 4 &&
         countdpf(i+3, primes, nprimes, cache, N) >= 4) {
       sprintf(ans, "%d", i);
-      return;
+      break;
     }
   }
+  free(primes);
+  free(cache);
 }
 
 void eu048(char *ans) {
@@ -1757,7 +1771,7 @@ void eu050(char *ans) {
   int maxsum = 0;
 
   for (int i = 0; i < n; i++) {
-    for (int j = i; sums[j]-sums[i] < N; j++) {
+    for (int j = i; j < n && sums[j]-sums[i] < N; j++) {
       int sum = sums[j] - sums[i];
       if (j - i > maxlen && sieve[sum] == 0) {
         maxsum = sum;
@@ -1767,6 +1781,7 @@ void eu050(char *ans) {
   }
   sprintf(ans, "%d", maxsum);
 
+  free(sums);
   free(primes);
   free(sieve);
 }
