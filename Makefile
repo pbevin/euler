@@ -1,5 +1,5 @@
 CC = gcc
 CFLAGS=-g -O2 -Wall -std=gnu99
-LDLIBS = -lm
+LDLIBS = -lm -lgmp
 
 all: euler
