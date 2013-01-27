@@ -2267,6 +2267,33 @@ eu055(char *ans) {
   mpz_clear(b);
 }
 
+void
+eu056(char *ans) {
+  int maxsum = 0;
+  mpz_t z;  // z = a^b
+  char buf[250];
+
+  mpz_init(z);
+  for (int a = 1; a < 100; a++) {
+    mpz_set_si(z, 1);
+
+    for (int b = 1; b < 100; b++) {
+      mpz_mul_ui(z, z, a);
+
+      char *p = mpz_get_str(buf, 10, z);
+      int digitsum = 0;
+      for (int i = 0; p[i]; i++) {
+        digitsum += todigit(p[i]);
+      }
+      if (digitsum > maxsum) {
+        maxsum = digitsum;
+      }
+    }
+  }
+
+  sprintf(ans, "%d", maxsum);
+}
+
 
 typedef void (solver)(char *ans);
 struct puzzle {
@@ -2331,6 +2358,7 @@ struct puzzle puzzles[] = {
   { "053", &eu053, "4075" },
   { "054", &eu054, "376" },
   { "055", &eu055, "249" },
+  { "056", &eu056, "972" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
