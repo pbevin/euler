@@ -79,6 +79,28 @@ int genprimes(int *primes, int n) {
   return nprimes;
 }
 
+
+/*
+ * Check one number for primality.
+ * Some problems need primes up to ~1billion, so the sieve
+ * isn't practical without better data compression.
+ */
+int isprime(int n) {
+  if (n == 1)
+    return 0;
+  else if (n == 2 || n == 3 || n == 5)
+    return 1;
+  else if (n == 1 || n % 2 == 0 || n % 3 == 0 || n % 5 == 0) {
+    return 0;
+  }
+  for (int i = 7; i * i <= n; i += 2) {
+    if (n % i == 0) {
+      return 0;
+    }
+  }
+  return 1;
+}
+
 /* Find the largest prime factor of 600851475143.
  * We generate primes up to sqrt(num) ~= 775146
  * and then test each one for divisibility.
@@ -86,7 +108,7 @@ int genprimes(int *primes, int n) {
 void
 eu003(char *ans) {
   long long num = 600851475143;
-  char sieve[775146];
+  static char sieve[775146];
   int i;
 
   gensieve(sieve, sizeof(sieve));
@@ -2314,7 +2336,7 @@ eu057(char *ans) {
     // = (2b+a) / (b+a)
     //
     // so we set c=b+a, then a, b => b+c, c
-    
+
     mpz_add(c, a, b);
     mpz_add(a, b, c);
     mpz_set(b, c);
@@ -2330,6 +2352,33 @@ eu057(char *ans) {
   }
 
   sprintf(ans, "%d", count);
+}
+
+void
+eu058(char *ans) {
+  const int MAX = 700000000;
+  int i, n = 1;
+  //char *sieve = malloc(MAX);
+  int primes = 0, nonprimes = 1;
+
+  //gensieve(sieve, MAX);
+
+  // Increment is 2,2,2,2, 4,4,4,4, 6,6,6,6, 8,8,8,8, ...
+  for (i = 2; n < MAX; i += 2) {
+    for (int j = 0; j < 4; j++) {
+      if (isprime(n)) primes++;
+      else nonprimes++;
+      n += i;
+    }
+    // primes ratio is primes / (primes+nonprimes)
+    // which is under 10% if 10 * primes / (primes+nonprimes) < 1
+    if (primes * 10 < primes + nonprimes) {
+      // Side length is increment plus one
+      sprintf(ans, "%d", i+1);
+      break;
+    }
+  }
+  //free(sieve);
 }
 
 
@@ -2398,6 +2447,7 @@ struct puzzle puzzles[] = {
   { "055", &eu055, "249" },
   { "056", &eu056, "972" },
   { "057", &eu057, "153" },
+  { "058", &eu058, "26241" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
