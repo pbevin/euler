@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <memory.h>
 #include <stdlib.h>
@@ -439,26 +440,42 @@ void eu013(char *ans) {
 }
 
 int
-collatz(long long n, int *a, int max) {
-  if (n == 1) {
-    return 1;
-  } else if (n < max && a[n] > 0) {
-    return a[n];
-  } else {
-    long long next;
-    int c;
-    if (n % 2 == 0) {
-      next = n / 2;
-    } else {
-      next = 3 * n + 1;
-    }
-    c = collatz(next, a, max);
-    if (n < max)
-      a[n] = c + 1;
-    return c + 1;
-  }
-}
+collatz(long long n, int *a, long long int max) {
+  static long long sequence[10000];
+  int result;
+  int i = 0;
+  int c;
 
+  for (;;) {
+    sequence[i++] = n;
+    if (n == 1) {
+      result = 1;
+      break;
+    }
+    if (n < max && a[n] > 0) {
+      result = a[n];
+      break;
+    }
+
+    if (n % 2 == 0) {
+      n /= 2;
+    } else {
+      n = 3 * n + 1;
+    }
+  }
+
+  // Fill in cache for numbers we saw
+  c = result;
+  while (--i >= 0) {
+    long long int k = sequence[i];
+    if (k < max) {
+      a[k] = c;
+    }
+    c++;
+  }
+
+  return c - 1;
+}
 
 void eu014(char *ans) {
   const int N = 1000000;
