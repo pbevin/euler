@@ -8,7 +8,6 @@ objs := $(srcs:.c=.o)
 all: euler
 
 euler: euler.o $(objs)
-	echo $(objs)
 
 clean:
-	rm -f euler.o $(objs)
+	rm -f euler euler.o $(objs)

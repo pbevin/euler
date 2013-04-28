@@ -23,6 +23,7 @@ eu056(char *ans) {
       }
     }
   }
+  mpz_clear(z);
 
   sprintf(ans, "%d", maxsum);
 }

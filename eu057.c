@@ -35,5 +35,9 @@ eu057(char *ans) {
     }
   }
 
+  mpz_clear(a);
+  mpz_clear(b);
+  mpz_clear(c);
+
   sprintf(ans, "%d", count);
 }
