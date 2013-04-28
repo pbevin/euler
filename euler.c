@@ -503,7 +503,7 @@ void eu014(char *ans) {
  */
 void eu015(char *ans) {
   const int N = 20;
-  long long a[N*2+2][N*2+2];
+  static long long a[N*2+2][N*2+2];
 
   memset(a, 0, sizeof(a));
   a[0][0] = 1;
