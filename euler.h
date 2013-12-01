@@ -40,3 +40,4 @@ solver eu021, eu022, eu023, eu024, eu025, eu026, eu027, eu028, eu029, eu030;
 solver eu031, eu032, eu033, eu034, eu035, eu036, eu037, eu038, eu039, eu040;
 solver eu041, eu042, eu043, eu044, eu045, eu046, eu047, eu048, eu049, eu050;
 solver eu051, eu052, eu053, eu054, eu055, eu056, eu057, eu058, eu059, eu060;
+solver eu061, eu062, eu063, eu064, eu065, eu066, eu067, eu068, eu069, eu070;
