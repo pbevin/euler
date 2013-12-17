@@ -155,6 +155,15 @@ subint(char *s, int i, int j) {
 }
 
 
+int digitsum(mpz_t z) {
+  static char buf[10000];
+  char *p = mpz_get_str(buf, 10, z);
+  int digitsum = 0;
+  for (int i = 0; p[i]; i++) {
+    digitsum += todigit(p[i]);
+  }
+  return digitsum;
+}
 
 int gcd(int a, int b) {
   int t;
@@ -240,6 +249,7 @@ struct puzzle puzzles[] = {
   { "062", &eu062, "127035954683" },
   { "063", &eu063, "49" },
   { "064", &eu064, "1322" },
+  { "065", &eu065, "272" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))

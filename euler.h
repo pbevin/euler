@@ -25,6 +25,7 @@ extern char *nextperm(char *s);
 extern char *prevperm(char *s);
 extern int subint(char *s, int i, int j);
 extern int gcd(int a, int b);
+extern int digitsum(mpz_t z);
 
 
 typedef void (solver)(char *ans);

@@ -15,12 +15,6 @@ void eu064(char *ans) {
     int d = 1;
     int i;
 
-    // sqrt(n) = a + 1/x
-    // Solving for x,
-    //   x = 1/(sqrt(n) - a)
-    //     = (sqrt(n) + a) / (n - a^2)
-    //     = b + (sqrt(n) + c) / (n-a^2)
-    //     where
     for (i = 0; a != 2 * a0; i++) {
       int m1 = d * a - m;
       int d1 = (n - m1*m1) / d;
