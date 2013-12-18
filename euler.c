@@ -250,6 +250,7 @@ struct puzzle puzzles[] = {
   { "063", &eu063, "49" },
   { "064", &eu064, "1322" },
   { "065", &eu065, "272" },
+  { "066", &eu066, "661" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
