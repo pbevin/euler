@@ -34,4 +34,6 @@ void eu063(char *ans) {
     }
   }
   sprintf(ans, "%d", count);
+
+  mpz_clear(z);
 }

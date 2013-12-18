@@ -29,6 +29,7 @@ void eu067(char *ans) {
     }
     memcpy(a, b, sizeof(b));
   }
+  fclose(fp);
 
   int max = 0;
   for (int i = 0; i < N; i++) {

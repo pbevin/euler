@@ -28,11 +28,11 @@ void eu065(char *ans) {
     mpz_gcd(r, n, d);
     mpz_div(n, n, r);
     mpz_div(d, d, r);
-    /* char bn[100], bd[100]; */
-    /* mpz_get_str(bn, 10, n); */
-    /* mpz_get_str(bd, 10, d); */
-    /* printf("%d: %d -> %s/%s\n", i, t, bn, bd); */
   }
+
+  mpz_clear(r);
+  mpz_clear(d);
+  mpz_clear(n);
 
   sprintf(ans, "%d", digitsum(n));
 }
