@@ -30,9 +30,9 @@ void eu065(char *ans) {
     mpz_div(d, d, r);
   }
 
+  sprintf(ans, "%d", digitsum(n));
+
   mpz_clear(r);
   mpz_clear(d);
   mpz_clear(n);
-
-  sprintf(ans, "%d", digitsum(n));
 }
