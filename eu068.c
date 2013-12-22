@@ -45,7 +45,6 @@ void eu068(char *ans) {
       }
     }
     if (strcmp(ans, buf) < 0) {
-      printf("%s\n", buf);
       strcpy(ans, buf);
     }
   } while (prevperm(nodes));
