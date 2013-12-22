@@ -10,8 +10,7 @@ void eu069(char *ans) {
   // is less than 1,000,000.
 
   static int primes[50];
-  int nprimes;
-  nprimes = genprimes(primes, 50);
+  genprimes(primes, 50);
 
   int product = 1;
 

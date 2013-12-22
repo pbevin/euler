@@ -1,7 +1,5 @@
 #include "euler.h"
 
-static char buf[10000];
-
 static int issquare(int n) {
   int sqrtn = sqrt(n);
   if (sqrtn * sqrtn == n)
