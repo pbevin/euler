@@ -62,6 +62,25 @@ int isprime(int n) {
   return 1;
 }
 
+/*
+ * Generate phi(n) up to max.
+ */
+void genphi(int *phi, int max) {
+  for (int i = 2; i < max; i++) {
+    phi[i] = i;
+  }
+
+  for (int i = 2; i < max; i++) {
+    if (phi[i] == i) {
+      // i is prime
+      for (int j = i; j < max; j += i) {
+        // phi[j] is definitely divisible by i.
+        phi[j] = phi[j] / i * (i-1);
+      }
+    }
+  }
+}
+
 
 int
 is_palindrome(int n) {
@@ -274,6 +293,7 @@ struct puzzle puzzles[] = {
   { "069", &eu069, "510510" },
   { "070", &eu070, "8319823" },
   { "071", &eu071, "428570" },
+  { "072", &eu072, "303963552391" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
