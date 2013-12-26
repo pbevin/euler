@@ -182,8 +182,26 @@ int gcd(int a, int b) {
 }
 
 
+int charcmp(const void *a, const void *b) {
+  const char *aa = a;
+  const char *bb = b;
+  return *aa - *bb;
+}
 
+void digitsort(char *buf, int n) {
+  sprintf(buf, "%d", n);
+  qsort(buf, strlen(buf), 1, charcmp);
+}
 
+int isperm(int a, int b) {
+  /* if (10*a < b || 10*b < a) { */
+  /*   return 0; */
+  /* } */
+  char abuf[20], bbuf[20];
+  digitsort(abuf, a);
+  digitsort(bbuf, b);
+  return strcmp(abuf, bbuf) == 0;
+}
 
 struct puzzle puzzles[] = {
   { "001", &eu001, "233168" },
@@ -254,6 +272,7 @@ struct puzzle puzzles[] = {
   { "067", &eu067, "7273" },
   { "068", &eu068, "6531031914842725" },
   { "069", &eu069, "510510" },
+  { "070", &eu070, NULL },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
