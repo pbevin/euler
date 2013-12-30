@@ -45,4 +45,4 @@ solver eu031, eu032, eu033, eu034, eu035, eu036, eu037, eu038, eu039, eu040;
 solver eu041, eu042, eu043, eu044, eu045, eu046, eu047, eu048, eu049, eu050;
 solver eu051, eu052, eu053, eu054, eu055, eu056, eu057, eu058, eu059, eu060;
 solver eu061, eu062, eu063, eu064, eu065, eu066, eu067, eu068, eu069, eu070;
-solver eu071, eu072, eu073, eu074, eu075, eu077, eu077, eu078, eu079, eu080;
+solver eu071, eu072, eu073, eu074, eu075, eu076, eu077, eu078, eu079, eu080;
