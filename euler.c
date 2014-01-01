@@ -115,6 +115,13 @@ int max(int x, int y) {
     return y;
 }
 
+int min(int x, int y) {
+  if (x < y)
+    return x;
+  else
+    return y;
+}
+
 
 void swap(char *a, char *b) {
   int t = *a;
@@ -314,6 +321,7 @@ struct puzzle puzzles[] = {
   { "078", &eu078, "55374" },
   { "079", &eu079, "73162890" },
   { "080", &eu080, "40886" },
+  { "081", &eu081, "427337" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))
