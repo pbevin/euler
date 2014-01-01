@@ -222,6 +222,18 @@ int isperm(int a, int b) {
   return strcmp(abuf, bbuf) == 0;
 }
 
+void
+strrev(char *s) {
+  int len = strlen(s);
+  char *p = s, *q = s + len - 1;
+  while (p < q) {
+    char t = *p;
+    *p = *q;
+    *q = t;
+    p++; q--;
+  }
+}
+
 struct puzzle puzzles[] = {
   { "001", &eu001, "233168" },
   { "002", &eu002, "4613732" },
@@ -300,6 +312,8 @@ struct puzzle puzzles[] = {
   { "076", &eu076, "190569291" },
   { "077", &eu077, "71" },
   { "078", &eu078, "55374" },
+  { "079", &eu079, "73162890" },
+  { "080", &eu080, "40886" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))

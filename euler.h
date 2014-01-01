@@ -29,6 +29,7 @@ extern int digitsum(mpz_t z);
 extern void digitsort(char *buf, int n);
 extern int isperm(int a, int b);
 extern void genphi(int *phi, int max);
+extern void strrev(char *str);
 
 
 typedef void (solver)(char *ans);
