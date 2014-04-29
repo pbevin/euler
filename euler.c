@@ -62,6 +62,25 @@ int isprime(int n) {
   return 1;
 }
 
+/*
+ * Generate phi(n) up to max.
+ */
+void genphi(int *phi, int max) {
+  for (int i = 2; i < max; i++) {
+    phi[i] = i;
+  }
+
+  for (int i = 2; i < max; i++) {
+    if (phi[i] == i) {
+      // i is prime
+      for (int j = i; j < max; j += i) {
+        // phi[j] is definitely divisible by i.
+        phi[j] = phi[j] / i * (i-1);
+      }
+    }
+  }
+}
+
 
 int
 is_palindrome(int n) {
@@ -91,6 +110,13 @@ is_prime(int n) {
 
 int max(int x, int y) {
   if (x > y)
+    return x;
+  else
+    return y;
+}
+
+int min(int x, int y) {
+  if (x < y)
     return x;
   else
     return y;
@@ -155,6 +181,15 @@ subint(char *s, int i, int j) {
 }
 
 
+int digitsum(mpz_t z) {
+  static char buf[10000];
+  char *p = mpz_get_str(buf, 10, z);
+  int digitsum = 0;
+  for (int i = 0; p[i]; i++) {
+    digitsum += todigit(p[i]);
+  }
+  return digitsum;
+}
 
 int gcd(int a, int b) {
   int t;
@@ -173,8 +208,38 @@ int gcd(int a, int b) {
 }
 
 
+int charcmp(const void *a, const void *b) {
+  const char *aa = a;
+  const char *bb = b;
+  return *aa - *bb;
+}
 
+void digitsort(char *buf, int n) {
+  sprintf(buf, "%d", n);
+  qsort(buf, strlen(buf), 1, charcmp);
+}
 
+int isperm(int a, int b) {
+  /* if (10*a < b || 10*b < a) { */
+  /*   return 0; */
+  /* } */
+  char abuf[20], bbuf[20];
+  digitsort(abuf, a);
+  digitsort(bbuf, b);
+  return strcmp(abuf, bbuf) == 0;
+}
+
+void
+strrev(char *s) {
+  int len = strlen(s);
+  char *p = s, *q = s + len - 1;
+  while (p < q) {
+    char t = *p;
+    *p = *q;
+    *q = t;
+    p++; q--;
+  }
+}
 
 struct puzzle puzzles[] = {
   { "001", &eu001, "233168" },
@@ -237,6 +302,27 @@ struct puzzle puzzles[] = {
   { "058", &eu058, "26241" },
   { "059", &eu059, "107359" },
   { "060", &eu060, NULL },
+  { "061", &eu061, "28684" },
+  { "062", &eu062, "127035954683" },
+  { "063", &eu063, "49" },
+  { "064", &eu064, "1322" },
+  { "065", &eu065, "272" },
+  { "066", &eu066, "661" },
+  { "067", &eu067, "7273" },
+  { "068", &eu068, "6531031914842725" },
+  { "069", &eu069, "510510" },
+  { "070", &eu070, "8319823" },
+  { "071", &eu071, "428570" },
+  { "072", &eu072, "303963552391" },
+  { "073", &eu073, "7295372" },
+  { "074", &eu074, "402" },
+  { "075", &eu075, "161667" },
+  { "076", &eu076, "190569291" },
+  { "077", &eu077, "71" },
+  { "078", &eu078, "55374" },
+  { "079", &eu079, "73162890" },
+  { "080", &eu080, "40886" },
+  { "081", &eu081, "427337" },
 };
 
 #define NPUZZLES (sizeof puzzles / sizeof(puzzles[0]))

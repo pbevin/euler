@@ -19,14 +19,14 @@ void eu018(char *ans) {
 63 66 04 68 89 53 67 30 73 16 69 87 40 31 \
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23";
   int n = 0;
-  int *maxima = malloc(N*sizeof(int));
-  int *row = malloc(N*sizeof(int));
+  int *maxima = malloc(N * sizeof(int));
+  int *row = malloc(N * sizeof(int));
 
-  memset(maxima, 0, sizeof(maxima));
+  memset(maxima, 0, N * sizeof(int));
   for (int i = 0; i < N; i++) {
-    int *newmax = malloc(N*sizeof(int));
-    memset(newmax, 0, sizeof(newmax));
-    memset(row, 0, sizeof(row));
+    int *newmax = malloc(N * sizeof(int));
+    memset(newmax, 0, N * sizeof(int));
+    memset(row, 0, N * sizeof(int));
     for (int j = 0; j <= i; j++) {
       row[j] = atoi(data + 3 * n);
       n++;
