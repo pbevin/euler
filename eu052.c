@@ -10,12 +10,8 @@ void eu052(char *ans) {
   for (;;) {
     x++;
     int allsame = 1;
-    char digits1[20];
-    digitsort(digits1, 2*x);
     for (int k = 3; k <= 6; k++) {
-      char digits2[20];
-      digitsort(digits2, k*x);
-      if (strcmp(digits1, digits2) != 0) {
+      if (!isperm(2*x, k*x)) {
         allsame = 0;
         break;
       }

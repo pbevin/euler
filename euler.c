@@ -214,20 +214,25 @@ int charcmp(const void *a, const void *b) {
   return *aa - *bb;
 }
 
-void digitsort(char *buf, int n) {
-  sprintf(buf, "%d", n);
-  qsort(buf, strlen(buf), 1, charcmp);
+int isperm(int a, int b) {
+  int digitcount[10];
+  memset(digitcount, 0, sizeof(digitcount));
+
+  while (a > 0) {
+    digitcount[a % 10]++;
+    a /= 10;
+  }
+  while (b > 0) {
+    digitcount[b % 10]--;
+    b /= 10;
+  }
+  for (int i = 0; i < 10; i++) {
+    if (digitcount[i] != 0)
+      return 0;
+  }
+  return 1;
 }
 
-int isperm(int a, int b) {
-  /* if (10*a < b || 10*b < a) { */
-  /*   return 0; */
-  /* } */
-  char abuf[20], bbuf[20];
-  digitsort(abuf, a);
-  digitsort(bbuf, b);
-  return strcmp(abuf, bbuf) == 0;
-}
 
 void
 strrev(char *s) {
